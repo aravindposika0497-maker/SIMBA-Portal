@@ -1,9 +1,10 @@
 {
-  "functions": {
-    "api/index.py": {
-      "includeFiles": "{app,templates,static,content}/**",
-      "maxDuration": 30
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": { "includeFiles": ["app/**", "templates/**", "static/**", "content/**"], "maxDuration": 30 }
     }
-  },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  ],
+  "routes": [{ "src": "/(.*)", "dest": "api/index.py" }]
 }
