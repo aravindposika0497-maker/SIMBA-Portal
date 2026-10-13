@@ -3,50 +3,111 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#151522">
-  <title>Sign in · SIMBA</title>
+  <meta name="theme-color" content="#d7192d">
+  <title>Sign in · Simba Data Lake</title>
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}?v=20261013-2">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}?v=20261013-3">
 </head>
 <body class="login-body">
   <main class="login-shell">
-    <section class="login-brand-panel simba-minimal-brand" aria-label="SIMBA">
-      <div class="brand-orbit orbit-one" aria-hidden="true"></div>
-      <div class="brand-orbit orbit-two" aria-hidden="true"></div>
-      <div class="brand-glow" aria-hidden="true"></div>
-      <a class="login-brand simba-wordmark" href="/login" aria-label="SIMBA home">
-        <span class="login-mark">S</span><span class="simba-word">SIMBA</span>
-      </a>
-      <div class="simba-left-tagline">One platform. Clearer data.<br><small>Bringing RedApp, Plumery and Kafka data together for trusted analytics and better decisions.</small></div>
-      <div class="login-powered-by"><span>POWERED BY</span><img src="{{ url_for('static', filename='images/uba-logo.png') }}" alt="UBA"></div>
-      <img class="login-simba-logo" src="{{ url_for('static', filename='images/simba-logo.png') }}" alt="Simba — Energising Africa">
+
+    <!-- Story panel: mirrors the "From Data to a Brighter Africa" hero in the portal concept. -->
+    <section class="story" aria-label="About the Simba Data Lake">
+      <div class="story-glow" aria-hidden="true"></div>
+      <div class="story-dots" aria-hidden="true"></div>
+
+      <header class="lockup lockup-light">
+        <img class="lockup-mark" src="{{ url_for('static', filename='favicon.svg') }}" alt="" width="44" height="44">
+        <div><strong>Simba</strong><small>Data Lake Admin Portal</small></div>
+      </header>
+
+      <div class="story-body">
+        <p class="story-kicker"><span class="kicker-dot" aria-hidden="true"></span>Project Simba · Lakehouse on Databricks</p>
+        <h1>From data to a <em>brighter Africa.</em></h1>
+        <p class="story-lede">One trusted, governed home for RedApp, Plumery and Kafka data, built for migration, analytics and AI across UBA.</p>
+
+        <ol class="medallion" aria-label="Data layers">
+          <li class="layer bronze"><span class="layer-gem" aria-hidden="true"></span><b>Bronze</b><small>Raw, as ingested</small></li>
+          <li class="layer-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></li>
+          <li class="layer silver"><span class="layer-gem" aria-hidden="true"></span><b>Silver</b><small>Cleaned &amp; conformed</small></li>
+          <li class="layer-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></li>
+          <li class="layer gold"><span class="layer-gem" aria-hidden="true"></span><b>Gold</b><small>Business-ready</small></li>
+        </ol>
+
+        <blockquote class="story-quote">
+          <p>Harnessing the power of data to create inclusive growth across Africa.</p>
+          <cite>Project Simba</cite>
+        </blockquote>
+      </div>
+
+      <footer class="story-foot">
+        <span class="partner-label">In partnership with</span>
+        <img class="partner-uba" src="{{ url_for('static', filename='images/uba-logo.png') }}" alt="UBA" width="74" height="34">
+        <span class="partner-sep" aria-hidden="true"></span>
+        <span class="partner-heirs">Heirs Technologies</span>
+      </footer>
     </section>
 
-    <section class="login-form-panel" aria-label="Sign in">
-      <div class="form-topline"><span class="secure-pill"><span>●</span> Secure workspace</span><span class="form-help">Need access? Contact your platform administrator.</span></div>
-      <div class="form-content">
-        <div class="form-icon">✳</div>
-        <div class="form-kicker">WELCOME BACK</div>
-        <h2>Sign in to SIMBA</h2>
-        <p class="form-subtitle">Enter your workspace credentials to continue.</p>
+    <!-- Sign-in panel -->
+    <section class="signin" aria-label="Sign in">
+      <div class="signin-top">
+        <span class="pill pill-secure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>Secure workspace</span>
+        <span class="pill pill-env">POC · Non-production</span>
+      </div>
+
+      <div class="signin-card">
+        <header class="lockup lockup-dark lockup-compact">
+          <img class="lockup-mark" src="{{ url_for('static', filename='favicon.svg') }}" alt="" width="40" height="40">
+          <div><strong>Simba</strong><small>Data Lake Admin Portal</small></div>
+        </header>
+
+        <h2>Welcome back</h2>
+        <p class="signin-sub">Sign in to explore datasets, lineage and governance on the Simba Data Lake.</p>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}<div class="flash-list">{% for category, message in messages %}<div class="flash {{ category }}" role="status">{{ message }}</div>{% endfor %}</div>{% endif %}
         {% endwith %}
-        <a class="microsoft-signin" href="{{ url_for('portal.microsoft_login') }}"><span class="ms-logo"><i></i><i></i><i></i><i></i></span><span>Sign in with Microsoft</span><span class="ms-arrow">↗</span></a>
-        <div class="login-or"><span></span><small>OR SIGN IN WITH DEMO CREDENTIALS</small><span></span></div>
+
+        <a class="btn-sso" href="{{ url_for('portal.microsoft_login') }}">
+          <span class="ms-logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>Continue with Microsoft</span>
+        </a>
+
+        <div class="divider"><span>or use demo credentials</span></div>
+
         <form class="signin-form" method="post" action="{{ url_for('portal.demo_login') }}" autocomplete="on">
           <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-          <label for="username">Username or work email</label>
-          <div class="input-wrap"><span class="input-symbol">＠</span><input id="username" name="username" type="text" placeholder="you@company.com" autocomplete="username" required autofocus></div>
-          <div class="label-row"><label for="password">Password</label></div>
-          <div class="input-wrap"><span class="input-symbol">⌑</span><input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required><button class="reveal-btn" type="button" id="togglePassword" aria-label="Show password">Show</button></div>
-          <button class="signin-button" type="submit"><span>Sign in</span><span class="button-arrow">→</span></button>
+
+          <div class="field">
+            <label for="username">Username or work email</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg>
+              <input id="username" name="username" type="text" placeholder="you@company.com" autocomplete="username" required autofocus>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>
+              <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button class="reveal" type="button" id="togglePassword" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <button class="btn-primary" type="submit">
+            <span>Sign in</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
         </form>
-        <div class="divider-label"><span></span><small>OR CONTINUE WITH</small><span></span></div>
-        <a class="sso-button" href="{{ url_for('portal.login_google') }}" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.22c0-.68-.06-1.33-.18-1.96H12v3.71h5.24a4.48 4.48 0 0 1-1.94 2.94v2.4h3.14c1.84-1.69 2.91-4.18 2.91-7.09z"/><path fill="#34A853" d="M12 21.6c2.63 0 4.83-.87 6.44-2.36l-3.14-2.4c-.87.58-1.98.93-3.3.93-2.54 0-4.69-1.71-5.46-4.01H3.3v2.47A9.72 9.72 0 0 0 12 21.6z"/><path fill="#FBBC05" d="M6.54 13.76a5.84 5.84 0 0 1 0-3.72V7.57H3.3a9.72 9.72 0 0 0 0 8.66l3.24-2.47z"/><path fill="#EA4335" d="M12 6.03c1.43 0 2.72.49 3.73 1.47l2.8-2.8C16.82 3.12 14.63 2.4 12 2.4a9.72 9.72 0 0 0-8.7 5.17l3.24 2.47C7.31 7.74 9.46 6.03 12 6.03z"/></svg><span>Continue with Google</span><span class="sso-arrow">↗</span></a>
-</div>
-      <footer class="login-footer"><span>© SIMBA Data Platform</span><span>Privacy · Security · Support</span></footer>
+
+        <p class="signin-help">Need access? Contact your platform administrator or raise a request through the UBA Service Portal.</p>
+      </div>
+
+      <footer class="signin-foot">
+        <span>© Simba Data Platform</span>
+        <span>Governed by Unity Catalog · Role-based access · Audited</span>
+      </footer>
     </section>
   </main>
   <script src="{{ url_for('static', filename='js/login.js') }}" defer></script>

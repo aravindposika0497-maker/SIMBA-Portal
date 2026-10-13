@@ -113,7 +113,7 @@ def test_demo_login_gate_and_success(monkeypatch):
     assert client.get("/").status_code == 302
     login_page = client.get("/login")
     assert login_page.status_code == 200
-    assert b"Make data" in login_page.data
+    assert b"Data Lake Admin Portal" in login_page.data
     token = re.search(rb'name="csrf_token" value="([^"]+)"', login_page.data).group(1).decode()
     bad = client.post("/demo-login", data={"csrf_token": token, "username": "wrong", "password": "wrong"})
     assert bad.status_code == 302
