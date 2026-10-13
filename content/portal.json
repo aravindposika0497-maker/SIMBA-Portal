@@ -1,0 +1,121 @@
+{
+  "_comment": "Descriptive portal content from the 'Simba Data Lake Admin Portal Concept' deck. Edit wording here; no code change needed. Statuses describe project state and must be kept accurate by the team.",
+  "title": "Simba Data Lake",
+  "subtitle": "Admin Portal",
+  "about": {
+    "heading": "What is the Data Lake?",
+    "body": "The Simba Data Lake provides a trusted, governed, and scalable data foundation for Simba's digital banking analytics and migration. It brings together data from across UBA into a unified, secure lakehouse on Databricks, enabling better insights, faster innovation and data-driven decision making.",
+    "values": [
+      {"icon": "chart", "label": "Unified data across UBA"},
+      {"icon": "shield", "label": "Trusted & governed"},
+      {"icon": "bolt", "label": "Scalable for future growth"},
+      {"icon": "users", "label": "Enables advanced analytics & AI"}
+    ],
+    "tagline": "From Data to a Brighter Africa",
+    "quote": "Harnessing the power of data to create inclusive growth across Africa.",
+    "quote_by": "Project Simba"
+  },
+  "architecture": {
+    "summary": "End-to-end flow from source systems to analytics and AI, built on Databricks (on AWS).",
+    "stages": [
+      {
+        "name": "Source systems",
+        "items": [
+          {"name": "RedApp", "detail": "PostgreSQL — approved TEST extract to S3", "status": "Awaiting extract"},
+          {"name": "Plumery", "detail": "Kafka / Amazon MSK events", "status": "Access in progress"},
+          {"name": "Other source systems", "detail": "Core banking, CRM, etc.", "status": "Planned"}
+        ]
+      },
+      {
+        "name": "Ingestion & pipelines",
+        "items": [
+          {"name": "Batch ingestion", "detail": "S3 landing → Bronze (Auto Loader)", "status": "Planned"},
+          {"name": "Streaming (Kafka)", "detail": "Structured Streaming → bronze.kafka_events", "status": "Planned"},
+          {"name": "Validation & quality checks", "detail": "Schema, keys, row counts, relationships", "status": "Planned"}
+        ]
+      },
+      {
+        "name": "Databricks lakehouse",
+        "items": [
+          {"name": "Bronze", "detail": "Raw", "status": ""},
+          {"name": "Silver", "detail": "Cleaned", "status": ""},
+          {"name": "Gold", "detail": "Business ready", "status": ""}
+        ]
+      },
+      {
+        "name": "Consumption",
+        "items": [
+          {"name": "BI & analytics", "detail": "Dashboards / Power BI", "status": "Planned"},
+          {"name": "AI / ML use cases", "detail": "Feature sets, models", "status": "Planned"},
+          {"name": "Data products & APIs", "detail": "Governed sharing", "status": "Planned"},
+          {"name": "Self-service access", "detail": "Via this portal's request flow", "status": "Planned"}
+        ]
+      }
+    ]
+  },
+  "layers": [
+    {
+      "schema": "bronze",
+      "name": "Bronze",
+      "tag": "Raw ingested data",
+      "body": "Raw data as it comes from source systems. Minimal transformations, kept in original format.",
+      "examples": ["RedApp raw extract", "Kafka event streams", "Source system dumps"]
+    },
+    {
+      "schema": "silver",
+      "name": "Silver",
+      "tag": "Cleaned & standardized data",
+      "body": "Cleansed, deduplicated and standardized data, conformed to common data models and business rules.",
+      "examples": ["Customer profiles", "Accounts", "Transactions", "Reference data"]
+    },
+    {
+      "schema": "gold",
+      "name": "Gold",
+      "tag": "Curated business-ready data",
+      "body": "Business-ready, analytics-optimized data. Aggregated, enriched and modeled for downstream consumption.",
+      "examples": ["Customer 360", "Product usage", "Operational metrics", "AI/ML feature sets"]
+    }
+  ],
+  "planned_datasets": [
+    {"name": "User", "source": "RedApp", "status": "Awaiting extract"},
+    {"name": "Device", "source": "RedApp", "status": "Awaiting extract"},
+    {"name": "Transaction", "source": "RedApp", "status": "Awaiting extract"},
+    {"name": "Transfer", "source": "RedApp", "status": "Awaiting extract"},
+    {"name": "Payment", "source": "RedApp", "status": "Awaiting extract"},
+    {"name": "Beneficiary", "source": "RedApp", "status": "Awaiting extract"}
+  ],
+  "roadmap": [
+    {"title": "Kafka onboarding", "detail": "Ingest real-time events from digital channels.", "status": "In progress", "target": "TBC"},
+    {"title": "Scheduled ingestion pipelines", "detail": "Automate batch data loads and monitoring.", "status": "Planned", "target": "TBC"},
+    {"title": "Data quality & reconciliation", "detail": "Implement data quality checks and audit.", "status": "Planned", "target": "TBC"},
+    {"title": "Curated semantic layer", "detail": "Build business-ready datasets.", "status": "Planned", "target": "TBC"},
+    {"title": "BI dashboards & self-service", "detail": "Enable analytics and reporting.", "status": "Planned", "target": "TBC"},
+    {"title": "Production readiness", "detail": "Scale, harden and onboard more use cases.", "status": "Planned", "target": "TBC"}
+  ],
+  "governance": {
+    "summary": "Enterprise-grade security, governance and compliance.",
+    "principles": [
+      {"name": "Unity Catalog", "detail": "Central catalog for tables, schemas, permissions and lineage."},
+      {"name": "Role-based access control", "detail": "Access granted to groups, not individuals, wherever possible."},
+      {"name": "Data masking", "detail": "Sensitive columns masked or excluded in shared views."},
+      {"name": "Audit trail", "detail": "Access and changes recorded in Databricks audit logs."},
+      {"name": "Encryption", "detail": "Encryption at rest (S3 / KMS) and in transit (TLS)."},
+      {"name": "Least privilege", "detail": "Each identity receives only the permissions it needs."},
+      {"name": "Environment separation", "detail": "Separate Dev, UAT and Prod environments."}
+    ]
+  },
+  "request_process": [
+    "Choose the request type below and submit it through the UBA service portal.",
+    "The data team validates the business need and the dataset owner approves.",
+    "Access is granted to the appropriate Unity Catalog group (never directly to a person where avoidable).",
+    "You are notified, and the grant becomes visible on the Security & Governance page."
+  ],
+  "help": {
+    "faq": [
+      {"q": "Why do some numbers say 'n/a'?", "a": "The portal only shows values it has read from Databricks. If a query is not permitted or a table does not exist yet, the value is shown as unavailable rather than estimated."},
+      {"q": "How fresh is the data on this page?", "a": "Kafka activity and job runs refresh every few seconds to a minute; table inventory, lineage and grants refresh every few minutes. The status indicator in the header shows when each was last checked."},
+      {"q": "Why is a Kafka topic missing?", "a": "Only topics that have delivered at least one event to the Bronze table are listed. A topic with no events in its retention window will not appear."},
+      {"q": "Can I see real customer data here?", "a": "No. Sample previews are limited to approved, masked tables or views, and only a handful of rows are shown."}
+    ]
+  }
+}

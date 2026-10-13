@@ -1,0 +1,165 @@
+:root{--login-ink:#171724;--login-red:#d7192d;--login-muted:#788195}
+.login-body{min-height:100vh;background:#f5f6fa;overflow-x:hidden}
+.login-shell{min-height:100vh;display:grid;grid-template-columns:minmax(420px,1.02fr) minmax(480px,.98fr);background:#fff;animation:pageIn .7s cubic-bezier(.2,.7,.2,1) both}
+.login-brand-panel{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh;padding:38px clamp(32px,5vw,76px);color:#fff;background:radial-gradient(ellipse at 15% 15%,rgba(215,25,45,.38),transparent 34%),radial-gradient(ellipse at 82% 80%,rgba(109,65,142,.22),transparent 36%),linear-gradient(145deg,#171722 0%,#20202f 52%,#2a1925 100%)}
+.login-brand-panel:before{content:"";position:absolute;inset:0;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,black,transparent 85%);pointer-events:none}
+.login-brand,.brand-copy,.brand-footer{position:relative;z-index:2}.login-brand{display:inline-flex;align-items:center;gap:12px;color:white;text-decoration:none;font-weight:800;letter-spacing:.16em;font-size:16px}.login-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#ef4050,#bd1025);box-shadow:0 8px 24px rgba(215,25,45,.3);font-size:20px;letter-spacing:0}.brand-slash{color:#ed4655}.brand-copy{max-width:580px;margin:auto 0;padding:72px 0 55px;animation:copyRise .8s .1s both}.eyebrow{display:flex;align-items:center;gap:9px;color:#ffb9c0;font-size:10px;font-weight:800;letter-spacing:.2em}.eyebrow-dot{width:7px;height:7px;background:#f13b4f;border-radius:50%;box-shadow:0 0 0 5px rgba(241,59,79,.14);animation:pulse 2s infinite}.brand-copy h1{font-size:clamp(42px,5vw,68px);line-height:1.04;letter-spacing:-.055em;margin:25px 0 20px;font-weight:760}.brand-copy h1 em{font-style:normal;color:#ff6978}.brand-tagline{max-width:420px;color:#c6c7d3;font-size:15px;line-height:1.8;margin:0}.brand-features{display:grid;gap:18px;margin-top:43px}.feature-line{display:flex;align-items:center;gap:14px}.feature-icon{display:grid;place-items:center;width:39px;height:39px;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:rgba(255,255,255,.055);font-size:20px;color:#ff8994}.feature-line b,.feature-line small{display:block}.feature-line b{font-size:12px;letter-spacing:.02em}.feature-line small{margin-top:3px;color:#a8a9b9;font-size:11px}.brand-footer{display:flex;justify-content:space-between;gap:20px;color:#898b9d;font-size:9px;font-weight:700;letter-spacing:.16em}
+.brand-orbit{position:absolute;border:1px solid rgba(255,255,255,.1);border-radius:50%;pointer-events:none}.orbit-one{width:520px;height:520px;right:-260px;top:8%;animation:orbit 36s linear infinite}.orbit-two{width:370px;height:370px;right:-185px;top:18%;border-style:dashed;animation:orbit 48s linear infinite reverse}.brand-glow{position:absolute;width:320px;height:320px;border-radius:50%;right:-100px;top:27%;background:rgba(215,25,45,.12);filter:blur(45px);animation:glow 7s ease-in-out infinite alternate}
+.login-form-panel{display:flex;flex-direction:column;min-height:100vh;padding:30px clamp(28px,5vw,72px) 22px;background:linear-gradient(145deg,#fff 0%,#fff 65%,#fbf8f9 100%)}.form-topline{display:flex;justify-content:space-between;align-items:center;gap:15px}.secure-pill{border:1px solid #e5e8ef;border-radius:30px;padding:7px 11px;color:#596276;font-size:10px;font-weight:700}.secure-pill span{color:#169a6a;margin-right:5px}.form-help{font-size:10px;color:#8a91a1;text-align:right}.form-content{width:100%;max-width:390px;margin:auto;animation:copyRise .75s .15s both}.form-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;background:#fff0f2;color:var(--login-red);font-size:22px;margin-bottom:22px;box-shadow:0 8px 22px rgba(215,25,45,.07)}.form-kicker{color:var(--login-red);font-size:10px;letter-spacing:.18em;font-weight:800}.form-content h2{font-size:30px;letter-spacing:-.045em;margin:8px 0 8px;color:#1b1c29}.form-subtitle{color:#7b8293;font-size:13px;margin:0 0 28px}.signin-form{display:grid;gap:9px}.signin-form label{font-size:11px;font-weight:700;color:#42495b;margin-top:4px}.label-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}.password-note{font-size:10px;color:#9ba1af}.input-wrap{display:flex;align-items:center;gap:10px;height:49px;border:1px solid #e1e5ec;border-radius:10px;padding:0 13px;background:#fff;transition:border-color .2s,box-shadow .2s,transform .2s}.input-wrap:focus-within{border-color:#e05260;box-shadow:0 0 0 4px rgba(215,25,45,.08);transform:translateY(-1px)}.input-symbol{font-size:17px;color:#969daf;width:18px;text-align:center}.input-wrap input{border:0;outline:0;min-width:0;flex:1;background:transparent;font-size:12px;color:#222637}.input-wrap input::placeholder{color:#a5abba}.reveal-btn{border:0;background:none;color:#727b8d;font-size:10px;font-weight:700;padding:6px}.signin-button{display:flex;justify-content:center;align-items:center;gap:12px;border:0;border-radius:10px;background:linear-gradient(100deg,#d7192d,#e52c42);color:#fff;padding:14px 18px;margin-top:11px;font-size:12px;font-weight:800;box-shadow:0 9px 18px rgba(215,25,45,.19);transition:transform .2s,box-shadow .2s,filter .2s}.signin-button:hover{transform:translateY(-2px);box-shadow:0 13px 24px rgba(215,25,45,.25);filter:saturate(1.1)}.button-arrow{font-size:17px;transition:transform .2s}.signin-button:hover .button-arrow{transform:translateX(4px)}.divider-label{display:flex;align-items:center;gap:12px;margin:22px 0 16px}.divider-label span{height:1px;background:#e8eaf0;flex:1}.divider-label small{font-size:9px;letter-spacing:.14em;color:#a0a6b4;font-weight:800}.sso-button{height:47px;border:1px solid #e1e5ec;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:11px;text-decoration:none;color:#3b4253;font-size:12px;font-weight:700;background:#fff;transition:all .2s}.sso-button:hover{border-color:#c9cfda;background:#fafbfc;transform:translateY(-1px);box-shadow:0 7px 16px rgba(20,28,50,.05)}.sso-button svg{width:18px;height:18px}.sso-arrow{margin-left:auto;padding-right:14px;color:#9aa1af}.demo-notice{display:flex;gap:10px;margin-top:18px;padding:12px 13px;border:1px solid #f2dfb4;border-radius:10px;background:#fffaf0;color:#806326;font-size:10px;line-height:1.55}.demo-notice b{font-size:10px}.demo-notice-dot{width:7px;height:7px;flex:none;border-radius:50%;background:#d99a19;margin-top:4px}.flash-list{display:grid;gap:7px;margin:-12px 0 16px}.flash{padding:10px 12px;border-radius:8px;font-size:11px}.flash.error{background:#fff0f2;color:#9f1239;border:1px solid #f5c2c8}.flash.info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}.login-footer{display:flex;justify-content:space-between;gap:15px;color:#a1a6b2;font-size:9px;padding-top:18px}.logout-form{display:inline-flex}.btn-small{font-size:10px;padding:6px 9px;border-radius:8px}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}@keyframes copyRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes orbit{to{transform:rotate(360deg)}}@keyframes pulse{0%,100%{box-shadow:0 0 0 5px rgba(241,59,79,.14)}50%{box-shadow:0 0 0 9px rgba(241,59,79,.04)}}@keyframes glow{from{opacity:.55;transform:scale(.9)}to{opacity:1;transform:scale(1.08)}}
+@media(max-width:900px){.login-shell{grid-template-columns:1fr}.login-brand-panel{min-height:auto;padding:26px 28px 22px}.brand-copy{padding:58px 0 42px}.brand-copy h1{font-size:46px}.brand-features{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:30px}.feature-line{align-items:flex-start;gap:8px}.feature-icon{width:32px;height:32px;flex:none}.feature-line b{font-size:10px}.feature-line small{font-size:9px}.brand-footer{font-size:8px}.login-form-panel{min-height:680px;padding:24px 28px}.form-content{margin:48px auto}.orbit-one,.orbit-two{opacity:.5}}
+@media(max-width:520px){.login-brand-panel{padding:23px 22px 18px}.brand-copy h1{font-size:40px}.brand-tagline{font-size:13px}.brand-features{grid-template-columns:1fr}.feature-line{align-items:center}.brand-footer{letter-spacing:.08em}.login-form-panel{padding:20px 22px;min-height:660px}.form-topline{align-items:flex-start}.form-help{max-width:150px;line-height:1.4}.form-content h2{font-size:27px}.login-footer{font-size:8px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Extra motion polish: restrained ambient particles, staggered entrance, and responsive interactions. */
+.login-brand-panel:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;background:radial-gradient(circle at 18% 76%,rgba(255,105,120,.16) 0 2px,transparent 3px),radial-gradient(circle at 76% 24%,rgba(255,255,255,.22) 0 1px,transparent 2px),radial-gradient(circle at 56% 62%,rgba(255,105,120,.2) 0 1px,transparent 2px),radial-gradient(circle at 88% 68%,rgba(255,255,255,.18) 0 2px,transparent 3px);background-size:190px 190px,150px 150px,230px 230px,260px 260px;animation:particleDrift 24s linear infinite}
+.login-mark{animation:markFloat 4s ease-in-out infinite;transition:transform .3s,box-shadow .3s}.login-brand:hover .login-mark{transform:rotate(-8deg) scale(1.07);box-shadow:0 12px 30px rgba(215,25,45,.48)}
+.feature-line{animation:copyRise .7s both;transition:transform .25s}.feature-line:nth-child(1){animation-delay:.2s}.feature-line:nth-child(2){animation-delay:.34s}.feature-line:nth-child(3){animation-delay:.48s}.feature-line:hover{transform:translateX(5px)}.feature-icon{transition:background .25s,border-color .25s,transform .25s}.feature-line:hover .feature-icon{background:rgba(215,25,45,.18);border-color:rgba(255,137,148,.5);transform:rotate(-5deg) scale(1.06)}
+.form-icon{animation:iconBob 3.4s ease-in-out infinite;position:relative}.form-icon:after{content:"";position:absolute;inset:-5px;border:1px solid rgba(215,25,45,.16);border-radius:17px;animation:iconRing 2.8s ease-out infinite}
+.input-wrap{animation:copyRise .5s both}.signin-form label[for="username"]{animation-delay:.18s}.signin-form .label-row{animation:copyRise .5s .12s both}.signin-button{position:relative;overflow:hidden}.signin-button:before{content:"";position:absolute;top:-40%;left:-65%;width:42%;height:180%;transform:skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transition:left .6s}.signin-button:hover:before{left:130%}.sso-button svg{transition:transform .3s}.sso-button:hover svg{transform:rotate(12deg) scale(1.08)}
+@keyframes particleDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-22px,18px,0)}}@keyframes markFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes iconBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(5deg)}}@keyframes iconRing{0%{opacity:.65;transform:scale(.9)}100%{opacity:0;transform:scale(1.28)}}
+@media(prefers-reduced-motion:reduce){.login-brand-panel:after,.login-mark,.form-icon,.form-icon:after,.feature-line{animation:none!important}.feature-line:hover,.login-brand:hover .login-mark{transform:none}}
+
+
+/* SIMBA minimal animated login refresh */
+.login-brand-panel{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 18% 20%,rgba(239,38,66,.34),transparent 42%),linear-gradient(135deg,#35101e 0%,#191827 52%,#111522 100%)}
+.login-brand-panel:before{content:"";position:absolute;inset:-35%;z-index:-1;pointer-events:none;background:conic-gradient(from 0deg,transparent 0 68%,rgba(255,78,106,.12) 78%,transparent 86%);animation:simbaOrbit 22s linear infinite}
+.login-brand-panel:after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 15% 20%,rgba(255,112,136,.45) 0 2px,transparent 3px),radial-gradient(circle at 75% 35%,rgba(255,255,255,.2) 0 2px,transparent 3px),radial-gradient(circle at 42% 78%,rgba(255,112,136,.28) 0 2px,transparent 3px);background-size:170px 190px,230px 210px,260px 230px;animation:simbaParticles 16s ease-in-out infinite alternate;opacity:.65}
+.brand-copy-minimal{position:relative;z-index:2;margin:auto 0;animation:simbaEnter 1s cubic-bezier(.16,1,.3,1) both}
+.brand-copy-minimal .simba-wordmark{margin:0 0 18px;font-size:clamp(76px,10vw,142px);font-weight:900;letter-spacing:-.085em;line-height:.92;color:#fff;background:linear-gradient(100deg,#fff 0%,#ff9aaa 35%,#fff 52%,#ff526e 70%,#fff 100%);background-size:260% auto;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:simbaShimmer 6s linear infinite,simbaEnter 1s cubic-bezier(.16,1,.3,1) both;filter:drop-shadow(0 8px 28px rgba(239,38,66,.12))}
+.brand-copy-minimal .brand-tagline{margin:0;max-width:390px;color:#e3dfe8;font-size:clamp(17px,2vw,23px);line-height:1.55;letter-spacing:.015em;animation:simbaTagline 1.1s .15s both}
+.brand-orbit{animation:simbaOrbit 28s linear infinite;opacity:.5}.orbit-two{animation-direction:reverse;animation-duration:36s}.brand-glow{animation:simbaGlow 7s ease-in-out infinite alternate}
+.login-form-panel{position:relative;overflow:hidden}.login-form-panel:before{content:"";position:absolute;width:540px;height:540px;right:-300px;top:-250px;border-radius:50%;background:radial-gradient(circle,rgba(231,24,51,.07),transparent 68%);pointer-events:none;animation:formFloat 9s ease-in-out infinite alternate}
+.form-content,.form-topline,.login-footer{position:relative;z-index:1}.input-wrap{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.input-wrap:focus-within{transform:translateY(-2px);box-shadow:0 0 0 4px rgba(225,25,48,.08),0 10px 24px rgba(30,25,45,.06)}.signin-button{position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease}.signin-button:before{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.25) 50%,transparent 75%);transition:transform .65s ease}.signin-button:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(225,25,48,.25);filter:saturate(1.1)}.signin-button:hover:before{transform:translateX(120%)}.sso-button{transition:transform .25s ease,box-shadow .25s ease}.sso-button:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(25,30,50,.08)}
+@keyframes simbaOrbit{to{transform:rotate(360deg)}}@keyframes simbaParticles{0%{transform:translate3d(0,0,0);background-position:0 0,0 0,0 0}100%{transform:translate3d(-12px,18px,0);background-position:80px -60px,-70px 50px,40px 90px}}@keyframes simbaShimmer{to{background-position:-260% center}}@keyframes simbaEnter{from{opacity:0;transform:translateY(28px) scale(.97);filter:blur(7px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}@keyframes simbaTagline{from{opacity:0;transform:translateY(14px);letter-spacing:.1em}to{opacity:1;transform:translateY(0);letter-spacing:.015em}}@keyframes simbaGlow{from{opacity:.35;transform:scale(.92)}to{opacity:.8;transform:scale(1.12)}}@keyframes formFloat{from{transform:translate(-20px,0)}to{transform:translate(0,35px)}}
+@media(prefers-reduced-motion:reduce){.login-brand-panel:before,.login-brand-panel:after,.brand-copy-minimal,.brand-copy-minimal .simba-wordmark,.brand-copy-minimal .brand-tagline,.brand-orbit,.brand-glow,.login-form-panel:before{animation:none!important}.signin-button,.input-wrap,.sso-button{transition:none!important}}
+
+
+/* Refined SIMBA sign-in: minimal brand panel, restrained motion, and quiet surfaces. */
+.login-brand-panel{background:linear-gradient(145deg,#181923 0%,#242330 100%);padding:36px clamp(32px,5vw,68px)}
+.login-brand-panel:before{opacity:.09;background-size:64px 64px}
+.login-brand-panel:after,.brand-orbit,.brand-glow{opacity:.18}
+.login-brand{font-size:20px;letter-spacing:.14em;gap:14px}
+.login-mark{width:44px;height:44px;border-radius:13px}
+.brand-copy{max-width:430px;padding:0;margin:auto 0;animation:copyRise .55s ease-out both}
+.brand-copy .eyebrow,.brand-copy h1,.brand-features,.brand-footer{display:none!important}
+.brand-tagline{max-width:310px;font-size:16px;line-height:1.75;color:#c9cad4;margin-top:20px}
+.login-form-panel{background:#fff;padding:28px clamp(28px,5vw,64px) 20px}
+.form-content{max-width:400px;animation:copyRise .45s ease-out both}
+.form-icon{width:40px;height:40px;border-radius:12px;box-shadow:none;animation:none;background:#fff3f4}
+.form-icon:after{display:none}
+.form-content h2{font-size:28px;letter-spacing:-.035em}
+.input-wrap{border-radius:9px;box-shadow:none}
+.signin-button{border-radius:9px;box-shadow:0 5px 14px rgba(215,25,45,.12)}
+.signin-button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(215,25,45,.16)}
+.demo-notice{display:none!important}
+.form-topline .secure-pill{background:#fff;border-color:#e9ebf0}
+@media(max-width:900px){.login-brand-panel{min-height:210px;padding:24px 28px}.brand-copy{padding:0;margin:auto 0}.brand-tagline{margin-top:15px}.login-form-panel{min-height:620px}}
+@media(max-width:520px){.login-brand-panel{min-height:170px;padding:22px}.login-brand{font-size:18px}.brand-tagline{font-size:14px}.login-form-panel{min-height:620px;padding:20px 22px}}
+
+
+/* Final visual polish: understated SIMBA brand and gentle motion. */
+.login-brand{font-size:20px!important;letter-spacing:.12em!important;gap:12px!important}
+.login-mark{width:42px!important;height:42px!important;border-radius:12px!important}
+.brand-copy{padding:0!important;margin:auto 0!important;max-width:360px!important}
+.brand-copy .eyebrow,.brand-copy h1,.brand-features,.brand-footer{display:none!important}
+.brand-tagline{display:block!important;font-size:15px!important;line-height:1.6!important;margin-top:14px!important;color:#c9cad4!important;max-width:280px!important}
+.login-brand-panel{background:linear-gradient(145deg,#21151c,#242330)!important}
+.login-brand-panel:before{opacity:.06!important}
+.login-brand-panel:after,.brand-orbit,.brand-glow{opacity:.12!important}
+.form-content h2{font-size:28px!important}
+.demo-notice{display:none!important}
+@media(prefers-reduced-motion:no-preference){.login-mark{animation:simbaMarkFloat 4s ease-in-out infinite}.login-brand{animation:simbaBrandIn .65s ease-out both}.signin-button{transition:transform .2s ease,box-shadow .2s ease}}
+@keyframes simbaMarkFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes simbaBrandIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+
+/* SIMBA compact login brand v1 */
+.login-brand { gap:11px; font-size:20px; letter-spacing:.12em; font-weight:800; transition:transform .25s ease,opacity .25s ease; }
+.login-brand:hover { transform:translateY(-2px); opacity:.96; }
+.login-mark { width:42px; height:42px; border-radius:13px; box-shadow:0 7px 18px rgba(225,29,72,.22); animation:simbaMarkFloat 4s ease-in-out infinite; }
+.brand-copy-compact { margin-top:clamp(26px,7vh,74px); }
+.brand-copy-compact .brand-tagline { max-width:330px; margin:0; font-size:clamp(17px,1.8vw,22px); line-height:1.55; font-weight:550; color:rgba(255,255,255,.86); animation:simbaTaglineIn .7s .1s both; }
+@keyframes simbaMarkFloat { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-4px)} }
+@keyframes simbaTaglineIn { from {opacity:0; transform:translateY(8px)} to {opacity:1; transform:translateY(0)} }
+@media (prefers-reduced-motion:reduce) { .login-mark,.brand-copy-compact .brand-tagline { animation:none!important; } }
+
+
+/* SIMBA refined login branding: compact, calm, and responsive */
+.login-brand-panel{min-height:100vh;justify-content:center;align-items:flex-start;padding:clamp(28px,5vw,64px);}
+.login-brand{font-size:clamp(22px,2.4vw,30px);letter-spacing:.12em;animation:simbaBrandIn .75s ease-out both;}
+.login-mark{width:42px;height:42px;border-radius:13px;font-size:20px;}
+.login-brand-panel:before{opacity:.14;background-size:56px 56px;}
+.login-brand-panel:after{opacity:.32;}
+.login-brand-panel:has(.login-brand)::before{animation:simbaGridDrift 30s linear infinite;}
+.login-brand-panel .brand-orbit{opacity:.45;}
+.login-brand-panel::marker{content:none;}
+@keyframes simbaBrandIn{from{opacity:0;transform:translateY(12px);letter-spacing:.2em}to{opacity:1;transform:translateY(0);letter-spacing:.12em}}
+@keyframes simbaGridDrift{from{background-position:0 0,0 0}to{background-position:56px 56px,-56px 56px}}
+@media(max-width:900px){.login-brand-panel{min-height:180px;padding:28px;justify-content:center}.login-brand{font-size:24px}.login-mark{width:38px;height:38px}}
+@media(prefers-reduced-motion:reduce){.login-brand,.login-brand-panel:before{animation:none!important}}
+
+
+/* SIMBA minimal left-panel branding patch */
+.login-brand-panel.simba-minimal-brand {
+  position: relative; overflow: hidden; display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start; gap: 14px;
+  padding: clamp(32px, 6vw, 76px); min-height: 100%;
+  background: radial-gradient(circle at 18% 18%, rgba(239,35,58,.25), transparent 35%),
+              linear-gradient(135deg, #25141d 0%, #201c2a 55%, #3b101c 100%);
+}
+.simba-minimal-brand .login-brand.simba-wordmark {
+  position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 13px;
+  text-decoration: none; animation: simbaWordmarkIn .75s cubic-bezier(.2,.75,.25,1) both;
+}
+.simba-minimal-brand .login-mark {
+  width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 13px; color: #fff; background: linear-gradient(135deg, #f02c43, #c9102b);
+  box-shadow: 0 8px 22px rgba(239,35,58,.25); font-size: 20px; font-weight: 800;
+}
+.simba-minimal-brand .simba-word {
+  color: #fff; font-size: clamp(25px, 2.4vw, 34px); line-height: 1.1;
+  letter-spacing: .12em; font-weight: 800; animation: simbaWordGlow 4s ease-in-out infinite;
+}
+.simba-minimal-brand .simba-left-tagline {
+  position: relative; z-index: 2; color: rgba(255,255,255,.78);
+  font-size: clamp(14px, 1.2vw, 17px); letter-spacing: .015em;
+  animation: simbaTaglineIn .9s .12s both;
+}
+.simba-minimal-brand .brand-orbit { pointer-events: none; opacity: .45; }
+@keyframes simbaWordmarkIn { from {opacity:0;transform:translateY(12px)} to {opacity:1;transform:translateY(0)} }
+@keyframes simbaTaglineIn { from {opacity:0;transform:translateY(8px)} to {opacity:1;transform:translateY(0)} }
+@keyframes simbaWordGlow { 0%,100% {text-shadow:0 0 0 rgba(255,255,255,0)} 50% {text-shadow:0 0 18px rgba(255,255,255,.16)} }
+@media (max-width:760px) {
+  .login-brand-panel.simba-minimal-brand { min-height:180px; padding:28px; }
+  .simba-minimal-brand .simba-word { font-size:26px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .simba-minimal-brand .login-brand, .simba-minimal-brand .simba-left-tagline,
+  .simba-minimal-brand .simba-word { animation:none !important; }
+}
+
+
+/* Fresh SIMBA + UBA branding additions */
+.simba-minimal-brand .simba-left-tagline{max-width:390px;line-height:1.65}
+.simba-minimal-brand .simba-left-tagline small{display:block;margin-top:10px;color:rgba(255,255,255,.72);font-size:14px;line-height:1.7}
+.login-powered-by{position:relative;z-index:2;display:flex;align-items:center;gap:12px;margin-top:26px;color:rgba(255,255,255,.58);font-size:9px;font-weight:800;letter-spacing:.16em}
+.login-powered-by img{width:92px;height:auto;max-height:42px;object-fit:contain;background:#fff;border-radius:5px;padding:4px}
+.login-simba-logo{position:relative;z-index:2;width:126px;height:auto;object-fit:contain;background:#fff;border-radius:8px;padding:6px;margin-top:8px}
+.microsoft-signin{height:47px;box-sizing:border-box;border:1px solid #dfe3eb;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;color:#303747;background:#fff;font-size:12px;font-weight:750;transition:transform .2s,box-shadow .2s,border-color .2s;margin:0 0 14px}
+.microsoft-signin:hover{transform:translateY(-1px);border-color:#c5ccd8;box-shadow:0 7px 16px rgba(20,28,50,.06)}
+.ms-logo{display:grid;grid-template-columns:8px 8px;grid-template-rows:8px 8px;gap:2px}.ms-logo i:nth-child(1){background:#f25022}.ms-logo i:nth-child(2){background:#7fba00}.ms-logo i:nth-child(3){background:#00a4ef}.ms-logo i:nth-child(4){background:#ffb900}.ms-arrow{margin-left:auto;padding-right:14px;color:#9aa1af}.login-or{display:flex;align-items:center;gap:10px;margin:2px 0 12px}.login-or span{height:1px;background:#e8eaf0;flex:1}.login-or small{font-size:8px;letter-spacing:.1em;color:#9aa1af;font-weight:800}
+@media(max-width:760px){.login-simba-logo{width:108px}.login-powered-by{margin-top:14px}.simba-minimal-brand .simba-left-tagline small{font-size:12px}}
+
+
+/* SIMBA_LOGIN_LOGO_TOP_POLISH — keep the supplied SIMBA logo at the top of the login brand panel */
+.login-brand-panel.simba-minimal-brand { position:relative; }
+.login-brand-panel.simba-minimal-brand .login-simba-logo {
+  position:absolute !important; top:28px !important; right:clamp(24px,4vw,58px) !important;
+  z-index:5 !important; width:clamp(108px,11vw,148px) !important; height:auto !important;
+  margin:0 !important; padding:5px !important; border-radius:9px !important;
+  background:#fff !important; box-shadow:0 8px 26px rgba(0,0,0,.18) !important;
+}
+@media(max-width:760px) {
+  .login-brand-panel.simba-minimal-brand .login-simba-logo { top:18px !important; right:20px !important; width:94px !important; }
+  .login-brand-panel.simba-minimal-brand .login-brand.simba-wordmark { max-width:calc(100% - 115px); }
+}

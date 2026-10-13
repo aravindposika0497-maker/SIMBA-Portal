@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simba Data Lake | Admin Portal</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}?v=20261013-2">
+</head>
+<body data-demo="{{ 'true' if demo_mode else 'false' }}" data-auth-disabled="{{ 'true' if auth_disabled else 'false' }}">
+  <div class="app">
+    <aside class="side" aria-label="Portal navigation">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div><strong>Simba</strong><small>Data Lake Admin Portal</small></div>
+      </div>
+      <nav id="nav" class="navs"></nav>
+      <div class="sidefoot">
+        <span id="mode-label">{{ 'Demo mode · simulated data' if demo_mode else 'Live · Databricks' }}</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <div class="crumb">Simba <span class="sep">/</span> <span id="crumb">Home</span></div>
+        <div class="topright">
+          <span id="live" class="live" role="status" aria-live="polite"><span class="live-dot"></span><span id="live-text">Connecting…</span></span>
+          <label class="env-picker" aria-label="Select workspace environment">
+            <span class="env-dot" aria-hidden="true"></span>
+            <select id="environment-select" class="env-select" aria-label="Environment">
+              <option value="DEV">DEV</option><option value="UAT">UAT</option><option value="PROD">PROD</option>
+            </select>
+          </label>
+          <span class="avatar" title="{{ user.get('email') or user.get('name') or '' }}">{{ ((user.get('name') or 'U')[:2]) | upper }}</span>
+          {% if demo_mode and auth_disabled and demo_login_required %}<form method="post" action="{{ url_for('portal.logout') }}" class="logout-form"><button class="btn btn-small" type="submit">Sign out</button></form>{% endif %}
+        </div>
+      </header>
+<div id="view" class="content" tabindex="-1"></div>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='js/portal.js') }}" defer></script>
+</body>
+</html>

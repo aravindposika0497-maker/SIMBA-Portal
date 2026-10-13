@@ -1,0 +1,31 @@
+[Unit]
+Description=SIMBA Data Lake Admin Portal (Gunicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=simba
+Group=simba
+WorkingDirectory=/opt/simba-portal
+EnvironmentFile=/etc/simba-portal/simba-portal.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=HOME=/var/lib/simba-portal
+ExecStart=/opt/simba-portal/venv/bin/gunicorn -c /opt/simba-portal/gunicorn.conf.py wsgi:app
+Restart=on-failure
+RestartSec=5
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+StateDirectory=simba-portal
+
+[Install]
+WantedBy=multi-user.target
