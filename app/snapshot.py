@@ -54,9 +54,13 @@ class StreamLimitReached(Exception):
 
 
 class SnapshotService:
-    def __init__(self, settings, source):
+    def __init__(self, settings, source, on_demand=False):
         self.settings = settings
         self.source = source
+        # Serverless hosts (e.g. Vercel) freeze background threads between requests,
+        # so refresh lazily on read instead of from the poller.
+        self.on_demand = on_demand
+        self._next_fast = self._next_slow = 0.0
         self._cond = threading.Condition()
         self._data = {name: None for name in ALL_SECTIONS}
         self._hash = {name: None for name in ALL_SECTIONS}
@@ -156,11 +160,24 @@ class SnapshotService:
             "sections": {k: dict(v) for k, v in self._meta.items()},
         }
 
+    def refresh_if_due(self):
+        if not self.on_demand:
+            return
+        now = time.monotonic()
+        if now >= self._next_slow:
+            self._next_slow = now + self.settings.slow_refresh_seconds
+            self.refresh(SLOW_SECTIONS)
+        if now >= self._next_fast:
+            self._next_fast = now + self.settings.fast_refresh_seconds
+            self.refresh(FAST_SECTIONS)
+
     def snapshot(self):
+        self.refresh_if_due()
         with self._cond:
             return {"version": self._version, "meta": self._meta_payload(), "sections": dict(self._data)}
 
     def status(self):
+        self.refresh_if_due()
         with self._cond:
             return self._meta_payload()
 

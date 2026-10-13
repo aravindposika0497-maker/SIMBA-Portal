@@ -145,6 +145,7 @@ def config():
     payload = settings.public_config()
     payload["sample_tables"] = _sample_tables(settings)
     payload["content"] = _ext()["content"]
+    payload["live_stream"] = not _ext()["snapshots"].on_demand
     return jsonify(payload)
 
 
@@ -168,6 +169,8 @@ def stream():
         since = int(request.args.get("since", "0"))
     except ValueError:
         since = 0
+    if snapshots.on_demand:
+        return jsonify(error="Live streaming is unavailable on this host; the page polls instead."), 503
     try:
         snapshots.acquire_stream()
     except StreamLimitReached:

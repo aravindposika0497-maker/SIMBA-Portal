@@ -888,7 +888,7 @@ const layersRegion = region(() => layerCards(true));
   }
 
   function connectStream() {
-    if (!('EventSource' in window)) { startPolling(); return; }
+    if (!('EventSource' in window) || state.config.live_stream === false) { startPolling(); return; }
     let failures = 0;
     const es = new EventSource(`/api/stream?since=${state.version}`);
     es.addEventListener('open', () => { failures = 0; state.transport = 'stream'; renderLive(); });

@@ -36,7 +36,8 @@ def create_app(settings=None, start_background=True):
     app.json.sort_keys = False
 
     source = DemoSource(settings) if settings.demo_mode else LiveSource(settings, DatabricksClient(settings))
-    snapshots = SnapshotService(settings, source)
+    serverless = bool(os.getenv("VERCEL"))
+    snapshots = SnapshotService(settings, source, on_demand=serverless)
     app.extensions["simba"] = {
         "settings": settings,
         "source": source,
@@ -68,6 +69,6 @@ def create_app(settings=None, start_background=True):
         "SIMBA portal starting in %s mode (auth=%s, catalog=%s)",
         source.mode, settings.auth_mode, settings.catalog,
     )
-    if start_background:
+    if start_background and not serverless:
         snapshots.start()
     return app

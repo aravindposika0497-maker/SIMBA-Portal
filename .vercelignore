@@ -1,0 +1,8 @@
+.venv
+venv
+__pycache__
+tests
+deploy
+databricks
+*.ps1
+.env
