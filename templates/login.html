@@ -6,45 +6,25 @@
   <meta name="theme-color" content="#d7192d">
   <title>Sign in · Simba Data Lake</title>
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}?v=20261013-3">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}?v=20261013-4">
 </head>
 <body class="login-body">
   <main class="login-shell">
 
-    <!-- Story panel: mirrors the "From Data to a Brighter Africa" hero in the portal concept. -->
-    <section class="story" aria-label="About the Simba Data Lake">
+    <!-- Brand panel: logo, one line, partner mark. Kept deliberately quiet. -->
+    <section class="story" aria-label="Simba">
       <div class="story-glow" aria-hidden="true"></div>
       <div class="story-dots" aria-hidden="true"></div>
 
-      <header class="lockup lockup-light">
-        <img class="lockup-mark" src="{{ url_for('static', filename='favicon.svg') }}" alt="" width="44" height="44">
-        <div><strong>Simba</strong><small>Data Lake Admin Portal</small></div>
-      </header>
-
       <div class="story-body">
-        <p class="story-kicker"><span class="kicker-dot" aria-hidden="true"></span>Project Simba · Lakehouse on Databricks</p>
-        <h1>From data to a <em>brighter Africa.</em></h1>
-        <p class="story-lede">One trusted, governed home for RedApp, Plumery and Kafka data, built for migration, analytics and AI across UBA.</p>
-
-        <ol class="medallion" aria-label="Data layers">
-          <li class="layer bronze"><span class="layer-gem" aria-hidden="true"></span><b>Bronze</b><small>Raw, as ingested</small></li>
-          <li class="layer-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></li>
-          <li class="layer silver"><span class="layer-gem" aria-hidden="true"></span><b>Silver</b><small>Cleaned &amp; conformed</small></li>
-          <li class="layer-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></li>
-          <li class="layer gold"><span class="layer-gem" aria-hidden="true"></span><b>Gold</b><small>Business-ready</small></li>
-        </ol>
-
-        <blockquote class="story-quote">
-          <p>Harnessing the power of data to create inclusive growth across Africa.</p>
-          <cite>Project Simba</cite>
-        </blockquote>
+        <img class="story-logo" src="{{ url_for('static', filename='images/simba-logo.png') }}" alt="Simba — Energising Africa" width="340" height="110">
+        <span class="story-rule" aria-hidden="true"></span>
+        <p class="story-caption">Data Lake Admin Portal</p>
       </div>
 
       <footer class="story-foot">
-        <span class="partner-label">In partnership with</span>
+        <span class="partner-label">Powered by</span>
         <img class="partner-uba" src="{{ url_for('static', filename='images/uba-logo.png') }}" alt="UBA" width="74" height="34">
-        <span class="partner-sep" aria-hidden="true"></span>
-        <span class="partner-heirs">Heirs Technologies</span>
       </footer>
     </section>
 
@@ -56,10 +36,7 @@
       </div>
 
       <div class="signin-card">
-        <header class="lockup lockup-dark lockup-compact">
-          <img class="lockup-mark" src="{{ url_for('static', filename='favicon.svg') }}" alt="" width="40" height="40">
-          <div><strong>Simba</strong><small>Data Lake Admin Portal</small></div>
-        </header>
+        <img class="signin-logo" src="{{ url_for('static', filename='images/simba-logo.png') }}" alt="Simba — Energising Africa" width="170" height="55">
 
         <h2>Welcome back</h2>
         <p class="signin-sub">Sign in to explore datasets, lineage and governance on the Simba Data Lake.</p>

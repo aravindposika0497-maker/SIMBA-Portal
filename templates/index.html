@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Simba Data Lake | Admin Portal</title>
   <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}?v=20261013-2">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}?v=20261013-4">
 </head>
 <body data-demo="{{ 'true' if demo_mode else 'false' }}" data-auth-disabled="{{ 'true' if auth_disabled else 'false' }}">
   <div class="app">
     <aside class="side" aria-label="Portal navigation">
       <div class="brand">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <div><strong>Simba</strong><small>Data Lake Admin Portal</small></div>
+        <img class="brand-logo" src="{{ url_for('static', filename='images/simba-logo.png') }}" alt="Simba — Energising Africa" width="168" height="54">
+        <small>Data Lake Admin Portal</small>
       </div>
       <nav id="nav" class="navs"></nav>
       <div class="sidefoot">
