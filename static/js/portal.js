@@ -44,6 +44,8 @@
     spark: 'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z',
     trend: 'M3 17l6-6 4 4 8-8M15 7h6v6',
     arrow: 'M5 12h14M13 6l6 6-6 6',
+    check: 'M20 6L9 17l-5-5',
+    send: 'M4 12l16-8-6 16-3-7z',
   };
 
   // Focused navigation requested for the SIMBA POC. Sample preview is opened from Data Layers.
@@ -317,14 +319,33 @@ const layersRegion = region(() => layerCards(true));
     return { el, update: () => { kpis.update(); layersRegion.update(); } };
   };
 
-  function architectureFlow(compact) {
+  const FLOW_ICONS = ['database', 'kafka', 'layers', 'chart'];
+  function flowStatus(text) {
+    const t = (text || '').toLowerCase();
+    const kind = /live|done|available|complete/.test(t) ? 'live' : /progress|awaiting|pending/.test(t) ? 'progress' : 'planned';
+    return h('span', { class: `flow-status ${kind}` }, text);
+  }
+
+  function architectureFlow() {
     const stages = state.content.architecture.stages;
     return h('div', { class: 'flow' }, stages.map((stage, i) => {
       const isLake = i === 2;
-      const items = stage.items.map((it) => h('div', { class: 'stage-item' },
-        h('b', null, it.name), h('span', null, it.detail),
-        !compact && it.status ? h('div', null, pill(it.status, it.status === 'Planned' ? '' : 'warn')) : null));
-      return h('div', { class: 'stage' }, h('h3', null, stage.name), isLake ? h('div', { class: 'lake-layers' }, items) : items);
+      const body = isLake
+        ? [h('ol', { class: 'flow-medallion' }, stage.items.map((it) => h('li', { class: `medal ${it.name.toLowerCase()}` },
+            h('span', { class: 'medal-gem', 'aria-hidden': 'true' }),
+            h('div', null, h('b', null, it.name), h('span', null, it.detail))))),
+           h('div', { class: 'flow-uc' }, icon('shield'), 'Governed by Unity Catalog')]
+        : stage.items.map((it) => h('div', { class: 'flow-item' },
+            h('div', { class: 'flow-item-top' }, h('b', null, it.name), it.status ? flowStatus(it.status) : null),
+            h('span', null, it.detail)));
+      return [
+        i ? h('div', { class: 'flow-conn', 'aria-hidden': 'true' }, icon('arrow')) : null,
+        h('section', { class: `flow-stage${isLake ? ' lake' : ''}` },
+          h('header', { class: 'flow-head' },
+            h('span', { class: 'flow-icon' }, icon(FLOW_ICONS[i] || 'layers')),
+            h('div', null, h('span', { class: 'flow-step' }, `Step ${String(i + 1).padStart(2, '0')}`), h('h3', null, stage.name))),
+          h('div', { class: 'flow-body' }, body)),
+      ];
     }));
   }
 
@@ -373,7 +394,7 @@ const layersRegion = region(() => layerCards(true));
     const el = h('div', { class: 'architecture-page' },
       head('SIMBA data platform architecture', 'End-to-end flow from source systems to governed analytics across DEV, UAT and PROD.'),
       panel('Architecture diagram', 'Source systems → ingestion → lakehouse → analytics and reporting.', null, diagram),
-      panel('End-to-end data flow', 'Component stages and statuses are maintained by the project team in content/portal.json.', null, architectureFlow(false)),
+      panel('End-to-end data flow', 'How data moves from source systems to the people who use it, with the current status of each component.', null, architectureFlow()),
       panel('Live platform status', 'Connectivity and job status are reported separately from the target architecture.', null, status.el));
     return { el, update: status.update };
   };
@@ -585,12 +606,12 @@ const layersRegion = region(() => layerCards(true));
   // SIMBA_INPLACE_TALK_TO_DATA_PATCH: local demo chat; no live AI/backend integration claimed.
   Pages['talk-data'] = () => {
     const prompts = [
-      ['Kafka & Plumery', 'How does Plumery Kafka data reach Bronze?', '↯'],
-      ['Medallion layers', 'Explain the Bronze, Silver and Gold layers', '◈'],
-      ['Security', 'How is customer data governed?', '◇'],
-      ['Analytics', 'Which tables support transaction analytics?', '▤'],
-      ['Power BI', 'How does Power BI consume Gold data?', '▥'],
-      ['Data quality', 'What checks should run before data reaches Gold?', '✓']
+      ['Kafka & Plumery', 'How does Plumery Kafka data reach Bronze?', 'kafka'],
+      ['Medallion layers', 'Explain the Bronze, Silver and Gold layers', 'layers'],
+      ['Security', 'How is customer data governed?', 'shield'],
+      ['Analytics', 'Which tables support transaction analytics?', 'table'],
+      ['Power BI', 'How does Power BI consume Gold data?', 'chart'],
+      ['Data quality', 'What checks should run before data reaches Gold?', 'check']
     ];
 
     const answerFor = (q) => {
@@ -606,9 +627,9 @@ const layersRegion = region(() => layerCards(true));
     const addMessage = (who, text, isUser) => {
       const message = h('article', { class: `talk-msg ${isUser ? 'user' : 'assistant'}` },
         h('div', { class: 'talk-msg-meta' },
-          h('span', { class: 'talk-msg-avatar' }, isUser ? 'You' : 'S'),
+          h('span', { class: 'talk-msg-avatar' }, isUser ? 'You' : icon('spark')),
           h('b', null, who),
-          h('span', { class: 'talk-msg-tag' }, isUser ? 'QUESTION' : 'SIMBA DEMO')),
+          h('span', { class: 'talk-msg-tag' }, isUser ? 'Question' : 'Demo answer')),
         h('p', null, text));
       transcript.append(message);
       transcript.scrollTop = transcript.scrollHeight;
@@ -637,43 +658,42 @@ const layersRegion = region(() => layerCards(true));
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
     });
 
-    const sendButton = h('button', { class: 'btn primary talk-send', type: 'submit' }, 'Ask SIMBA', h('span', null, '↗'));
+    const sendButton = h('button', { class: 'talk-send', type: 'submit' }, 'Ask SIMBA', icon('send'));
     const form = h('form', { class: 'talk-form', onsubmit: (e) => { e.preventDefault(); send(); } },
       h('div', { class: 'talk-composer-field' }, input,
         h('div', { class: 'talk-composer-foot' }, h('span', null, 'Enter to send · Shift + Enter for a new line'), counter)),
       sendButton);
     const suggestions = h('div', { class: 'talk-prompts' }, prompts.map(([label, question, glyph]) =>
       h('button', { class: 'talk-topic', type: 'button', onclick: () => send(question) },
-        h('span', { class: 'talk-topic-icon' }, glyph),
+        h('span', { class: 'talk-topic-icon' }, icon(glyph)),
         h('span', { class: 'talk-topic-copy' }, h('b', null, label), h('span', null, question)),
-        h('span', { class: 'talk-topic-arrow' }, '↗'))));
+        h('span', { class: 'talk-topic-arrow' }, icon('arrow')))));
 
     const el = h('div', { class: 'talk-page' },
       h('section', { class: 'talk-hero' },
         h('div', { class: 'talk-hero-copy' },
-          h('div', { class: 'talk-eyebrow' }, h('span', { class: 'talk-eyebrow-dot' }), 'SIMBA KNOWLEDGE ASSISTANT'),
+          h('div', { class: 'talk-eyebrow' }, h('span', { class: 'talk-eyebrow-dot' }), 'Simba knowledge assistant'),
           h('h1', null, 'Talk to your data.'),
           h('p', null, 'Explore the SIMBA platform, from Plumery events to trusted analytics — all in one place.'),
           h('div', { class: 'talk-hero-tags' }, h('span', null, 'Kafka & ingestion'), h('span', null, 'Lakehouse'), h('span', null, 'Governance'), h('span', null, 'Analytics'))),
         h('div', { class: 'talk-hero-art', 'aria-hidden': 'true' },
           h('div', { class: 'talk-orbit talk-orbit-one' }),
           h('div', { class: 'talk-orbit talk-orbit-two' }),
-          h('div', { class: 'talk-orbit talk-orbit-three' }),
-          h('div', { class: 'talk-art-core' }, 'S'),
-          h('span', { class: 'talk-art-chip chip-one' }, 'ASK'),
-          h('span', { class: 'talk-art-chip chip-two' }, 'DATA'),
-          h('span', { class: 'talk-art-chip chip-three' }, 'AI · DEMO'))),
-      h('div', { class: 'talk-demo-note' }, 'Demo mode: answers are predefined reference guidance. No live AI, database query or Databricks connection is used.'),
+          h('div', { class: 'talk-art-core' }, icon('spark')),
+          h('span', { class: 'talk-art-chip chip-one' }, 'Kafka'),
+          h('span', { class: 'talk-art-chip chip-two' }, 'Gold'),
+          h('span', { class: 'talk-art-chip chip-three' }, 'Power BI'))),
+      h('div', { class: 'talk-demo-note' }, h('span', { class: 'talk-demo-badge' }, 'Demo'), h('p', null, 'Answers are predefined reference guidance. No live AI, database query or Databricks connection is used.')),
       h('section', { class: 'talk-workspace' },
         h('div', { class: 'talk-workspace-heading' },
-          h('div', null, h('div', { class: 'talk-section-kicker' }, 'GET STARTED'), h('h2', null, 'What would you like to explore?')),
-          h('span', { class: 'talk-prompt-count' }, '6 TOPICS')),
+          h('div', null, h('div', { class: 'talk-section-kicker' }, 'Get started'), h('h2', null, 'What would you like to explore?')),
+          h('span', { class: 'talk-prompt-count' }, `${prompts.length} topics`)),
         suggestions,
         h('section', { class: 'talk-chat-card' },
           h('div', { class: 'talk-chat-head' },
-            h('div', { class: 'talk-chat-brand' }, h('span', { class: 'talk-chat-logo' }, 'S'),
+            h('div', { class: 'talk-chat-brand' }, h('span', { class: 'talk-chat-logo' }, icon('spark')),
               h('div', null, h('b', null, 'SIMBA Data Assistant'), h('span', null, 'Platform guide · Demo mode'))),
-            h('span', { class: 'talk-status-pill' }, h('span', { class: 'talk-status-dot' }), 'READY')),
+            h('span', { class: 'talk-status-pill' }, h('span', { class: 'talk-status-dot' }), 'Ready')),
           transcript,
           form)));
     return { el, update: () => {} };
@@ -994,129 +1014,3 @@ const layersRegion = region(() => layerCards(true));
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, {once:true}); else run();
   new MutationObserver(() => run()).observe(document.documentElement, {childList:true,subtree:true});
 })();
-
-/* SIMBA_INPLACE_TALK_TO_DATA_PATCH styles */
-(function(){
- if(document.getElementById('simba-talk-data-style')) return;
- const st=document.createElement('style'); st.id='simba-talk-data-style'; st.textContent=`
- .talk-demo-note{padding:12px 14px;margin:0 0 16px;border:1px solid #e7c989;background:#fff8e8;color:#77551a;border-radius:10px;font-size:13px;font-weight:650}
- .talk-prompts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.talk-prompts .btn{white-space:normal;text-align:left;max-width:100%}
- .talk-transcript{display:flex;flex-direction:column;gap:10px;max-height:390px;overflow:auto;padding:14px;background:var(--surface-2,#f7f8fa);border:1px solid var(--border,#e2e6eb);border-radius:12px;margin:10px 0}
- .talk-msg{max-width:90%;padding:10px 13px;border-radius:10px;background:white;border:1px solid #e2e6eb}.talk-msg p{margin:5px 0 0;line-height:1.5}.talk-msg.user{align-self:flex-end;background:#eaf2ff;border-color:#c9dcff}.talk-msg.assistant{align-self:flex-start}
- .talk-form{display:flex;gap:8px}.talk-input{flex:1;min-width:0;padding:11px 13px;border:1px solid #cfd6df;border-radius:9px;font:inherit}
- `; document.head.appendChild(st);
-})();
-
-
-/* SIMBA_TALK_AESTHETIC_POLISH — visual-only styling for the existing Talk to Data page */
-(function () {
-  if (document.getElementById('simba-talk-aesthetic-polish')) return;
-  const style = document.createElement('style');
-  style.id = 'simba-talk-aesthetic-polish';
-  style.textContent = `
-    .talk-demo-note {
-      display:flex !important; align-items:center; gap:10px; max-width:1040px;
-      margin:0 auto 18px !important; padding:11px 16px !important;
-      border:1px solid #f2d7a0 !important; border-radius:12px !important;
-      background:linear-gradient(100deg,#fff8e9,#fffdf8) !important;
-      color:#815b1b !important; font-size:12px !important; line-height:1.55;
-      box-shadow:0 4px 14px rgba(130,91,27,.05);
-    }
-    .talk-demo-note:before { content:'✦'; display:grid; place-items:center; flex:0 0 25px; height:25px; border-radius:8px; background:#ffedc4; color:#8a5b06; font-size:14px; }
-    .talk-demo-note:after { content:'DEMO'; margin-left:auto; flex:0 0 auto; font-size:9px; letter-spacing:.12em; font-weight:800; opacity:.75; }
-    .talk-prompts { display:grid !important; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:10px !important; margin:16px 0 20px !important; }
-    .talk-prompts .btn { display:flex; align-items:center; justify-content:flex-start; gap:10px; min-height:62px; width:100%; padding:13px 14px !important; white-space:normal; text-align:left; line-height:1.4; border:1px solid #e2e7ef !important; border-radius:13px !important; background:#fff !important; color:#26334a !important; box-shadow:0 3px 12px rgba(24,39,75,.035); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .talk-prompts .btn:before { content:'↗'; display:grid; place-items:center; flex:0 0 28px; height:28px; border-radius:9px; background:#eef3ff; color:#4263c7; font-weight:800; }
-    .talk-prompts .btn:hover { transform:translateY(-2px); border-color:#b9c9f6 !important; box-shadow:0 9px 22px rgba(43,69,135,.09); }
-    .talk-transcript { max-width:100%; min-height:250px; max-height:430px !important; gap:14px !important; padding:22px !important; margin:0 0 14px !important; border:1px solid #e5eaf2 !important; border-radius:18px !important; background:radial-gradient(ellipse at top left,rgba(230,237,255,.58),transparent 42%),linear-gradient(180deg,#fbfcff,#f7f9fc) !important; box-shadow:inset 0 1px 0 #fff; scroll-behavior:smooth; }
-    .talk-msg { position:relative; max-width:min(82%,720px) !important; padding:14px 16px !important; border:1px solid #e4e9f1 !important; border-radius:15px !important; background:#fff !important; box-shadow:0 5px 16px rgba(24,39,75,.045); color:#283348; }
-    .talk-msg b { display:flex; align-items:center; gap:7px; color:#26334a; font-size:12px; letter-spacing:.01em; }
-    .talk-msg.assistant b:before { content:'S'; display:grid; place-items:center; width:23px; height:23px; border-radius:8px; background:linear-gradient(145deg,#e52b42,#b60e28); color:white; font-size:11px; box-shadow:0 3px 8px rgba(215,25,45,.18); }
-    .talk-msg.user { align-self:flex-end; border-color:#d3e1ff !important; border-bottom-right-radius:5px !important; background:linear-gradient(135deg,#edf4ff,#e7efff) !important; }
-    .talk-msg.assistant { align-self:flex-start; border-bottom-left-radius:5px !important; }
-    .talk-msg p { margin:8px 0 0 !important; font-size:13px; line-height:1.7 !important; color:#4d596d; }
-    .talk-form { position:relative; display:flex; align-items:center; gap:10px !important; padding:8px; border:1px solid #dfe5ee; border-radius:15px; background:#fff; box-shadow:0 8px 24px rgba(24,39,75,.07); }
-    .talk-input { width:100%; padding:13px 14px !important; border:0 !important; outline:none; background:transparent; color:#202b3e; font-size:13px !important; box-shadow:none !important; }
-    .talk-input:focus { outline:none; }
-    .talk-form .btn { flex:0 0 auto; min-height:42px; padding:0 19px !important; border:0 !important; border-radius:10px !important; background:linear-gradient(135deg,#dc243b,#b50d29) !important; color:#fff !important; box-shadow:0 5px 12px rgba(190,20,45,.2); }
-    .talk-form .btn:hover { filter:brightness(1.05); transform:translateY(-1px); }
-    @media(max-width:640px) { .talk-transcript{padding:13px!important;min-height:220px}.talk-msg{max-width:94%!important}.talk-prompts{grid-template-columns:1fr}.talk-demo-note{align-items:flex-start}.talk-demo-note:after{display:none}.talk-form{gap:5px!important;padding:5px}.talk-form .btn{padding:0 12px!important} }
-    @media(prefers-reduced-motion:reduce) { .talk-prompts .btn,.talk-transcript{transition:none!important;scroll-behavior:auto!important} }
-  `;
-  document.head.appendChild(style);
-})();
-
-
-
-/* SIMBA_TALK_DATA_PREMIUM_V2 */
-(function () {
-  if (document.getElementById('simba-talk-premium-v2')) return;
-  const s = document.createElement('style');
-  s.id = 'simba-talk-premium-v2';
-  s.textContent = `
-    .talk-page{max-width:1180px;margin:0 auto;animation:talkPageIn .42s ease both}
-    @keyframes talkPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    .talk-hero{position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:225px;overflow:hidden;padding:30px 34px;margin:0 0 18px;border:1px solid #f0cbd1;border-radius:20px;background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 27%),linear-gradient(118deg,#24151e 0%,#761729 52%,#d7192d 100%);color:#fff;box-shadow:0 16px 36px rgba(110,17,39,.12)}
-    .talk-hero-copy{position:relative;z-index:1;max-width:690px}
-    .talk-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:13px;color:#ffd8df;font-size:10px;font-weight:800;letter-spacing:.16em}
-    .talk-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#ffb8c5;box-shadow:0 0 0 4px rgba(255,184,197,.13)}
-    .talk-hero h1{margin:0 0 10px;font-size:clamp(28px,3vw,40px);line-height:1.1;letter-spacing:-.045em;color:#fff}
-    .talk-hero p{max-width:600px;margin:0;color:rgba(255,255,255,.82);font-size:14px;line-height:1.75}
-    .talk-hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
-    .talk-hero-tags span{padding:6px 10px;border:1px solid rgba(255,255,255,.2);border-radius:20px;background:rgba(255,255,255,.08);color:#fff;font-size:11px}
-    .talk-hero-art{position:relative;flex:0 0 190px;width:190px;height:170px}
-    .talk-orbit{position:absolute;border:1px solid rgba(255,255,255,.2);border-radius:50%;inset:9px 13px;transform:rotate(-25deg)}
-    .talk-orbit-two{inset:28px 0;transform:rotate(38deg);border-color:rgba(255,255,255,.25)}
-    .talk-orbit-three{inset:0 37px;transform:rotate(55deg);border-color:rgba(255,255,255,.15)}
-    .talk-art-core{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:66px;height:66px;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.55);border-radius:20px;background:linear-gradient(145deg,#fff,#ffe9ed);color:#bd1730;font-size:28px;font-weight:900;box-shadow:0 12px 35px rgba(25,0,7,.2)}
-    .talk-art-chip{position:absolute;padding:5px 8px;border:1px solid rgba(255,255,255,.28);border-radius:7px;background:rgba(39,7,17,.55);color:#fff;font-size:8px;font-weight:800;letter-spacing:.1em}
-    .chip-one{top:6px;left:2px}.chip-two{right:0;top:52px}.chip-three{bottom:5px;left:30px}
-    .talk-demo-note{display:flex;align-items:center;gap:10px;padding:11px 14px;margin:0 0 24px;border:1px solid #f1dfb7;border-radius:11px;background:#fffaf0;color:#7a5a21;font-size:11px;line-height:1.6}
-    .talk-demo-note:before{content:'i';display:grid;place-items:center;flex:none;width:21px;height:21px;border-radius:50%;background:#f5e5bf;color:#79561b;font-weight:800}
-    .talk-workspace{padding:0 2px}
-    .talk-workspace-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:13px}
-    .talk-section-kicker{margin-bottom:4px;color:#d7192d;font-size:9px;font-weight:850;letter-spacing:.16em}
-    .talk-workspace-heading h2{margin:0;font-size:19px;letter-spacing:-.025em}
-    .talk-prompt-count{padding:5px 8px;border:1px solid #e5e9f0;border-radius:7px;color:#758198;font-size:9px;font-weight:800;letter-spacing:.08em}
-    .talk-prompts{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px!important;margin:0 0 20px!important}
-    .talk-topic{display:flex;align-items:center;gap:11px;min-width:0;min-height:91px;padding:13px!important;border:1px solid #e4e8f0!important;border-radius:13px!important;background:linear-gradient(145deg,#fff,#fbfcfe)!important;color:#243047!important;text-align:left;box-shadow:0 3px 12px rgba(23,32,51,.025);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
-    .talk-topic:hover{transform:translateY(-3px);border-color:#e8a7b1!important;box-shadow:0 10px 24px rgba(45,30,50,.075)}
-    .talk-topic-icon{display:grid;place-items:center;flex:none;width:37px;height:37px;border:1px solid #f5d7dc;border-radius:11px;background:#fff1f3;color:#c81932;font-size:18px}
-    .talk-topic-copy{display:grid;gap:5px;min-width:0;flex:1}
-    .talk-topic-copy b{font-size:12px;color:#202b40}
-    .talk-topic-copy>span{color:#718096;font-size:10px;line-height:1.5}
-    .talk-topic-arrow{align-self:flex-start;color:#a1aabd;font-size:15px}
-    .talk-chat-card{overflow:hidden;border:1px solid #e3e8f0;border-radius:17px;background:#fff;box-shadow:0 8px 26px rgba(23,32,51,.045)}
-    .talk-chat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid #edf0f5;background:linear-gradient(90deg,#fff,#fcfcfe)}
-    .talk-chat-brand{display:flex;align-items:center;gap:10px}
-    .talk-chat-logo{display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:linear-gradient(145deg,#e52b42,#a90c27);color:#fff;font-size:15px;font-weight:900;box-shadow:0 4px 10px rgba(190,20,45,.16)}
-    .talk-chat-brand b{display:block;font-size:12px;color:#253148}
-    .talk-chat-brand div span{display:block;margin-top:2px;color:#8390a4;font-size:10px}
-    .talk-status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid #dcefe5;border-radius:20px;background:#f3fbf6;color:#26734c;font-size:9px;font-weight:800;letter-spacing:.08em}
-    .talk-status-dot{width:6px;height:6px;border-radius:50%;background:#2a9a63}
-    .talk-transcript{display:flex;flex-direction:column;gap:13px;min-height:220px;max-height:390px;overflow:auto;padding:22px!important;margin:0!important;border:0!important;border-radius:0!important;background:radial-gradient(ellipse at top left,#f7f9ff 0%,#fff 58%)!important;scroll-behavior:smooth}
-    .talk-msg{max-width:min(83%,720px)!important;padding:12px 14px!important;border:1px solid #e7ebf2!important;border-radius:14px!important;background:#fff!important;box-shadow:0 4px 13px rgba(30,41,59,.035);color:#29364c}
-    .talk-msg.assistant{align-self:flex-start;border-bottom-left-radius:4px!important}
-    .talk-msg.user{align-self:flex-end;border-color:#d8e4ff!important;border-bottom-right-radius:4px!important;background:linear-gradient(140deg,#f0f5ff,#e8efff)!important}
-    .talk-msg-meta{display:flex;align-items:center;gap:7px}
-    .talk-msg-avatar{display:grid;place-items:center;width:23px;height:23px;border-radius:7px;background:#fff0f2;color:#c71932;font-size:9px;font-weight:850}
-    .talk-msg.user .talk-msg-avatar{background:#dce7ff;color:#315bb2}
-    .talk-msg-meta b{font-size:11px;color:#29364c}
-    .talk-msg-tag{margin-left:auto;color:#9aa4b4;font-size:8px;font-weight:800;letter-spacing:.08em}
-    .talk-msg p{margin:8px 0 0!important;color:#58667b;font-size:12px;line-height:1.75!important;white-space:pre-wrap;overflow-wrap:anywhere}
-    .talk-form{display:flex;align-items:stretch;gap:10px!important;padding:14px 16px 12px!important;border-top:1px solid #edf0f5;background:#fff}
-    .talk-composer-field{flex:1;min-width:0;padding:9px 12px 7px;border:1px solid #dfe5ee;border-radius:12px;background:#fbfcfe;transition:border-color .18s,box-shadow .18s}
-    .talk-composer-field:focus-within{border-color:#d7192d;box-shadow:0 0 0 3px rgba(215,25,45,.07)}
-    .talk-input{display:block;width:100%;min-height:28px;max-height:130px;resize:none;padding:3px 0!important;border:0!important;outline:0!important;background:transparent!important;color:#253148;font:inherit;font-size:12px!important;box-shadow:none!important}
-    .talk-input:focus{outline:none!important}
-    .talk-composer-foot{display:flex;justify-content:space-between;gap:10px;margin-top:4px;color:#99a3b3;font-size:9px}
-    .talk-counter{white-space:nowrap}
-    .talk-send{align-self:center;min-height:43px;padding:0 15px!important;border:0!important;border-radius:11px!important;background:linear-gradient(135deg,#df263d,#b90e2a)!important;color:#fff!important;box-shadow:0 6px 14px rgba(190,20,45,.17)}
-    .talk-send span{font-size:16px}
-    @media(max-width:900px){.talk-hero{padding:25px}.talk-hero-art{flex-basis:145px;width:145px}.talk-prompts{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-    @media(max-width:620px){.talk-hero{padding:22px;min-height:0}.talk-hero-art{display:none}.talk-hero h1{font-size:29px}.talk-prompts{grid-template-columns:1fr!important}.talk-topic{min-height:72px}.talk-transcript{padding:14px!important}.talk-msg{max-width:96%!important}.talk-form{padding:10px!important;gap:7px!important}.talk-composer-foot span:first-child{max-width:190px}.talk-send{padding:0 10px!important}.talk-workspace-heading h2{font-size:17px}}
-    @media(prefers-reduced-motion:reduce){.talk-page,.talk-topic{animation:none!important;transition:none!important}.talk-transcript{scroll-behavior:auto}}
-  `;
-  document.head.appendChild(s);
-})();
-
