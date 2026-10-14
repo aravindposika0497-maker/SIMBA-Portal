@@ -40,6 +40,10 @@
     chart: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
     bolt: 'M13 2L4 14h7l-1 8 9-12h-7z',
     users: 'M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21v-1a6 6 0 0 1 12 0v1M16 3.5a4 4 0 0 1 0 7.5M18 21v-1a6 6 0 0 0-3-5.2',
+    database: 'M12 3c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3zM4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6',
+    spark: 'M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z',
+    trend: 'M3 17l6-6 4 4 8-8M15 7h6v6',
+    arrow: 'M5 12h14M13 6l6 6-6 6',
   };
 
   // Focused navigation requested for the SIMBA POC. Sample preview is opened from Data Layers.
@@ -264,40 +268,26 @@
   const Pages = {};
 
 
-  Pages.architecture = () => {
-    const flow = h('div', { class: 'architecture-flow' },
-      h('div', { class: 'architecture-step source' }, h('span', { class: 'step-num' }, '01'), h('b', null, 'Data sources'), h('p', null, 'RedApp PostgreSQL · Plumery PostgreSQL · Kafka events')),
-      h('div', { class: 'architecture-arrow', 'aria-hidden': 'true' }, '→'),
-      h('div', { class: 'architecture-step ingest' }, h('span', { class: 'step-num' }, '02'), h('b', null, 'Data ingestion'), h('p', null, 'Kafka connector · JDBC · Databricks Workflows')),
-      h('div', { class: 'architecture-arrow', 'aria-hidden': 'true' }, '→'),
-      h('div', { class: 'architecture-step lake' }, h('span', { class: 'step-num' }, '03'), h('b', null, 'Databricks + Unity Catalog'), h('div', { class: 'medallion' },
-        h('span', null, 'Bronze'), h('span', null, '→'), h('span', null, 'Silver'), h('span', null, '→'), h('span', null, 'Gold')),
-        h('p', null, 'Governance · Access control · Lineage · Audit')),
-      h('div', { class: 'architecture-arrow', 'aria-hidden': 'true' }, '→'),
-      h('div', { class: 'architecture-step consume' }, h('span', { class: 'step-num' }, '04'), h('b', null, 'Analytics & reporting'), h('p', null, 'Databricks SQL Warehouse · Power BI semantic model · KPIs · Reports · Dashboards')));
-    const el = h('div', { class: 'architecture-page' },
-      head('SIMBA data platform architecture', 'End-to-end flow from operational data sources to governed analytics and UBA dashboards.'),
-      h('div', { class: 'architecture-callout' }, h('span', { class: 'architecture-pulse' }), h('div', null, h('b', null, 'Target data flow'), h('p', null, 'RedApp / Plumery / Kafka → Databricks Workflows → Bronze → Silver → Gold → Databricks SQL Warehouse → Power BI → UBA users'))),
-      panel('Architecture overview', 'Reference diagram supplied for the SIMBA POC.', null,
-        h('figure', { class: 'architecture-figure' },
-          h('img', { src: '/static/images/simba-architecture-reference.png', alt: 'SIMBA architecture: RedApp and Plumery PostgreSQL and Kafka events flow through Kafka Connector, JDBC and Databricks Workflows into Bronze, Silver and Gold layers governed by Unity Catalog, then Databricks SQL and Power BI.' }),
-          h('figcaption', null, 'Reference architecture · Unity Catalog provides governance, access control, lineage and audit across the lakehouse layers.'))),
-      panel('Flow stages', 'The main stages represented in the reference architecture.', null, flow),
-      h('div', { class: 'architecture-note' }, h('b', null, 'Implementation note'), ' This page documents the target architecture. Live connectivity, job execution, catalog permissions and report availability must be validated in the approved AWS and Databricks environments.'));
-    return { el, update: () => {} };
-  };
-
   Pages.home = () => {
     const c = state.content;
     const about = c.about;
-    const hero = h('section', { class: 'panel hero' },
-      h('div', { class: 'hero-main' },
-        h('h1', null, about.heading),
+    const hero = h('section', { class: 'ov-hero' },
+      h('div', { class: 'ov-hero-copy' },
+        h('span', { class: 'ov-kicker' }, about.kicker),
+        h('h1', null, about.tagline),
         h('p', null, about.body),
-        h('div', { class: 'values' }, about.values.map((v) => h('span', { class: 'value' }, icon(v.icon), v.label)))),
-      h('div', { class: 'hero-side' },
-        h('div', { class: 'tagline' }, about.tagline),
-        h('blockquote', null, `“${about.quote}”`, h('cite', null, `— ${about.quote_by}`))));
+        h('div', { class: 'ov-actions' },
+          h('a', { class: 'ov-btn primary', href: '#/architecture' }, 'Explore the architecture', icon('arrow')),
+          h('a', { class: 'ov-btn', href: '#/layers' }, 'Browse data layers'))),
+      h('blockquote', { class: 'ov-quote' }, h('p', null, `“${about.quote}”`), h('cite', null, about.quote_by)),
+      h('span', { class: 'ov-credit' }, 'Photo: NASA · Unsplash'));
+
+    const benefits = h('section', { class: 'ov-benefits' },
+      h('div', { class: 'ov-section-head' }, h('h2', null, c.benefits.heading), h('p', null, c.benefits.summary)),
+      h('div', { class: 'ov-benefit-grid' }, c.benefits.items.map((b) => h('article', { class: 'ov-benefit' },
+        h('span', { class: 'ov-benefit-icon' }, icon(b.icon)),
+        h('h3', null, b.title),
+        h('p', null, b.body)))));
 
     const kpis = region(() => {
       const k = sec('kafka');
@@ -321,8 +311,8 @@ const layersRegion = region(() => layerCards(true));
       h('div', { class: 'feature-summary' }, h('span', { class: 'feature-summary-icon' }, '◇'), h('div', null,
         h('b', null, 'Access with accountability'), h('p', null, 'Review verified catalog grants and approved identity access when the live adapter is configured.'))));
 
-    const el = h('div', null, hero, kpis.el,
-      h('div', { class: 'grid g-wide' }, layersPanel),
+    const el = h('div', null, hero, kpis.el, benefits,
+      h('div', { class: 'grid' }, layersPanel),
       h('div', { class: 'grid g2' }, activityPanel, governancePanel));
     return { el, update: () => { kpis.update(); layersRegion.update(); } };
   };
@@ -375,9 +365,11 @@ const layersRegion = region(() => layerCards(true));
           : h('div', { class: 'muted' }, (p && p.note) || 'No job runs to show.'),
       ];
     });
+    const diagramSrc = '/static/images/simba-architecture.png';
     const diagram = h('figure', { class: 'architecture-figure' },
-      h('img', { src: '/static/images/simba-architecture-reference.svg', alt: 'SIMBA reference architecture showing RedApp PostgreSQL, Plumery Kafka events and other feeds moving through Kafka/JDBC ingestion and Databricks Workflows into Bronze, Silver and Gold layers, governed by Unity Catalog, then served through Databricks SQL and Power BI.' }),
-      h('figcaption', null, 'Target reference architecture. Unity Catalog spans the lakehouse layers for permissions, discovery, lineage and audit. The diagram describes the intended flow, not confirmed live connectivity.'));
+      h('a', { href: diagramSrc, target: '_blank', rel: 'noopener', title: 'Open full-size diagram' },
+        h('img', { src: diagramSrc, width: 1571, height: 545, alt: 'SIMBA architecture: RedApp PostgreSQL, Plumery PostgreSQL and Kafka events are ingested through a Kafka connector, JDBC and Databricks Workflows into Databricks Bronze, Silver and Gold layers. Unity Catalog provides governance, access control, lineage and audit. Data is served through Databricks SQL to Power BI semantic models, KPIs, reports and dashboards.' })),
+      h('figcaption', null, 'Target reference architecture. Unity Catalog spans the lakehouse for governance, access control, lineage and audit. Select the diagram to open it full size.'));
     const el = h('div', { class: 'architecture-page' },
       head('SIMBA data platform architecture', 'End-to-end flow from source systems to governed analytics across DEV, UAT and PROD.'),
       panel('Architecture diagram', 'Source systems → ingestion → lakehouse → analytics and reporting.', null, diagram),
@@ -955,7 +947,7 @@ const layersRegion = region(() => layerCards(true));
 })();
 
 
-/* SIMBA polish: remove the Data Lake marketing panel from Overview, hide obsolete demo banners,
+/* SIMBA polish: hide obsolete demo banners,
    and animate numeric KPI values when views render. Does not alter data or authentication. */
 (function simbaFinalPolish(){
   if (window.__simbaFinalPolishInstalled) return;
@@ -975,13 +967,6 @@ const layersRegion = region(() => layerCards(true));
       if (bannerPhrases.some(p => t.includes(p))) {
         const target = el.closest('[role="alert"], .alert, .banner, .notice, .warning, .callout') || el;
         target.style.display = 'none';
-      }
-    });
-    // Remove the Overview marketing card headed “What is the Data Lake?” only.
-    document.querySelectorAll('h1,h2,h3,h4').forEach(h => {
-      if ((h.textContent || '').trim().toLowerCase() === 'what is the data lake?') {
-        const card = h.closest('.card, article, section, .panel, .grid-item') || h.parentElement?.parentElement;
-        if (card) card.style.display = 'none';
       }
     });
     // Count-up for standalone KPI/stat numbers. Mark each element once per displayed value.

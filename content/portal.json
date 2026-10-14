@@ -4,16 +4,23 @@
   "subtitle": "Admin Portal",
   "about": {
     "heading": "What is the Data Lake?",
-    "body": "The Simba Data Lake provides a trusted, governed, and scalable data foundation for Simba's digital banking analytics and migration. It brings together data from across UBA into a unified, secure lakehouse on Databricks, enabling better insights, faster innovation and data-driven decision making.",
-    "values": [
-      {"icon": "chart", "label": "Unified data across UBA"},
-      {"icon": "shield", "label": "Trusted & governed"},
-      {"icon": "bolt", "label": "Scalable for future growth"},
-      {"icon": "users", "label": "Enables advanced analytics & AI"}
-    ],
+    "kicker": "Simba Data Lake · Lakehouse on Databricks",
+    "body": "One trusted, governed home for UBA's data. The Simba Data Lake brings RedApp, Plumery and Kafka data together on Databricks so teams can report, analyse and build AI from the same reliable source.",
     "tagline": "From Data to a Brighter Africa",
     "quote": "Harnessing the power of data to create inclusive growth across Africa.",
     "quote_by": "Project Simba"
+  },
+  "benefits": {
+    "heading": "Why a data lake?",
+    "summary": "What the Simba lakehouse changes for business, technology and data teams.",
+    "items": [
+      {"icon": "database", "title": "One source of truth", "body": "RedApp, Plumery and Kafka data land in one governed lakehouse, so every team works from the same numbers instead of reconciling separate copies."},
+      {"icon": "shield", "title": "Governed by design", "body": "Unity Catalog applies access control, lineage and audit to every table and column, which simplifies compliance and access reviews."},
+      {"icon": "layers", "title": "Quality you can trust", "body": "Bronze, Silver and Gold layers refine raw data step by step into validated, business-ready datasets, while raw history is kept for traceability."},
+      {"icon": "bolt", "title": "Real-time and batch together", "body": "Kafka event streams and scheduled loads arrive in the same platform, keeping dashboards and models fresh without extra pipelines."},
+      {"icon": "spark", "title": "Ready for analytics and AI", "body": "Open Delta tables feed Databricks SQL, Power BI and machine learning directly, from Customer 360 to fraud detection and personalisation."},
+      {"icon": "trend", "title": "Scales at lower cost", "body": "Low-cost cloud storage with compute that scales on demand and pauses when idle, so the platform grows with Simba without duplicating data."}
+    ]
   },
   "architecture": {
     "summary": "End-to-end flow from source systems to analytics and AI, built on Databricks (on AWS).",
